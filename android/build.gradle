@@ -88,7 +88,7 @@ repositories {
   google()
 //  flatDir {
 ////    dirs 'libs'
-//    dirs "D:\\Users\\Administrator\\Repository\\github\\react-native-ttlock\\android\\libs"
+//    dirs "D:\\Users\\Administrator\\Repository\\github\\react-native-ttlock-upgrade\\android\\libs"
 //  }
   def found = false
   def defaultDir = null

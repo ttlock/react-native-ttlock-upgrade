@@ -1,6 +1,6 @@
 {
-  "name": "react-native-ttlock-example",
-  "description": "Example app for react-native-ttlock",
+  "name": "react-native-ttlock-upgrade-example",
+  "description": "Example app for react-native-ttlock-upgrade",
   "version": "0.0.1",
   "private": true,
   "scripts": {

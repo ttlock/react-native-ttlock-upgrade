@@ -1,5 +1,5 @@
 {
-  "name": "react-native-ttlock",
+  "name": "react-native-ttlock-upgrade",
   "version": "2.1.4",
   "description": "ttlock",
   "main": "lib/commonjs/index",
@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "react-native-ttlock.podspec",
+    "react-native-ttlock-upgrade.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",
@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://www.npmjs.com/package/react-native-ttlock",
+  "repository": "https://www.npmjs.com/package/react-native-ttlock-upgrade",
   "author": "JLGB <ttlock-developers-email-list@googlegroups.com> (https://ttlock.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://www.npmjs.com/package/react-native-ttlock/issues"
+    "url": "https://www.npmjs.com/package/react-native-ttlock-upgrade/issues"
   },
-  "homepage": "https://www.npmjs.com/package/react-native-ttlock#readme",
+  "homepage": "https://www.npmjs.com/package/react-native-ttlock-upgrade#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

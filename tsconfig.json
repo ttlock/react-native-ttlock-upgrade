@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-ttlock": ["./src/index"]
+      "react-native-ttlock-upgrade": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

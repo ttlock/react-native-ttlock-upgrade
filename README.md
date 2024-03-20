@@ -1,11 +1,11 @@
 new update
 bd7bc4b
 
-# react-native-ttlock
+# react-native-ttlock-upgrade
 ##### Developers Email && Quick Response
 ttlock-developers-email-list@googlegroups.com
 ## Installation
-`yarn add react-native-ttlock`
+`yarn add react-native-ttlock-upgrade`
 ## Add configuration to project
 #### iOS
 1. `cd ./ios && pod install && cd ../`
