@@ -22,17 +22,12 @@ RCT_EXPORT_MODULE()
     return YES;
 }
 
-- (instancetype)init{
-    if (self = [super init]) {
-//        __weak Ttlock *weakSelf = self;
-        [TTLock setupBluetooth:^(TTBluetoothState state) {
-//            if (isAddListenBluetoothState) {
-//                [weakSelf sendEventWithName:EVENT_BLUETOOTH_STATE body:@(state)];
-//            }
-        }];
-    }
-    return self;
-}
+//- (instancetype)init{
+//    if (self = [super init]) {
+//        [TTLock setupBluetooth:^(TTBluetoothState state) {}];
+//    }
+//    return self;
+//}
 
 //暴露出支持的事件
 - (NSArray<NSString *> *)supportedEvents
