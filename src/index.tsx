@@ -3,10 +3,8 @@ import {
   NativeEventEmitter,
 } from 'react-native';
 
-
-
 const EventUpgradeProgress: string = 'EventUpgradeProgress'
-const ttlockModule = NativeModules.Ttlock;
+const ttlockModule = NativeModules.TtlockUpgrade;
 const ttlockEventEmitter = new NativeEventEmitter(ttlockModule);
 
 const subscriptionMap = new Map();
@@ -92,10 +90,4 @@ enum TtUpgradeError {
     UpgradeFail,
     UpgradeOprationSetLockTimeError
 }
-
-
-
-
-
-
 export { TtlockDFU, TtGatewayDFU, TtUpgradeProgress, TtUpgradeError }

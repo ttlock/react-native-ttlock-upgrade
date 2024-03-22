@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
-import { TtUpgradeError, TtUpgradeProgress, TtlockDFU } from 'react-native-ttlock-upgrade';
+import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
 
 
 const MainPage = ({ navigation }: {navigation: any}) => {

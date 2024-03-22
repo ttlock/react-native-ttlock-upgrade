@@ -1,61 +1,41 @@
 buildscript {
-  ext {
-    agp_version = '7.4.2'
-  }
-
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-//  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['Ttlock_kotlinVersion']
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['TtlockUpgrade_kotlinVersion']
 
   repositories {
-    mavenCentral()
     google()
     jcenter()
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:$agp_version"
+    classpath 'com.android.tools.build:gradle:3.2.1'
     // noinspection DifferentKotlinGradleVersion
-//    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
 
 apply plugin: 'com.android.library'
-//apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android'
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['Ttlock_' + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['TtlockUpgrade_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['Ttlock_' + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['TtlockUpgrade_' + name]).toInteger()
 }
 
 android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion 21
+    minSdkVersion 16
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-//    ndk {
-//      // ����֧�ֵ� SO �⹹��
-//      abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'//, 'mips', 'mips64'
-//    }
+    
   }
-
-  packagingOptions {
-    pickFirst "lib/armeabi-v7a/libfbjni.so"
-    pickFirst "lib/arm64-v8a/libc++_shared.so"
-    pickFirst "lib/arm64-v8a/libfbjni.so"
-    pickFirst "lib/x86_64/libfbjni.so"
-    pickFirst "lib/x86/libfbjni.so"
-    pickFirst "lib/x86/libc++_shared.so"
-    pickFirst "lib/x86_64/libc++_shared.so"
-    pickFirst "lib/armeabi-v7a/libc++_shared.so"
-//    exclude "lib/arm64-v8a/librealm-jni.so"
-  }
-
+  
   buildTypes {
     release {
       minifyEnabled false
@@ -64,21 +44,9 @@ android {
   lintOptions {
     disable 'GradleCompatible'
   }
-  sourceSets {
-    main {
-      jniLibs.srcDirs = ['libs']
-    }
-  }
   compileOptions {
-    targetCompatibility JavaVersion.VERSION_1_8
     sourceCompatibility JavaVersion.VERSION_1_8
-  }
-
-  //��ӱ��زֿ⣬����libsĿ¼��Ϊ�ֿ��ַ
-  repositories {
-    flatDir {
-      dirs 'libs'
-    }
+    targetCompatibility JavaVersion.VERSION_1_8
   }
 }
 
@@ -86,10 +54,7 @@ repositories {
   mavenCentral()
   jcenter()
   google()
-//  flatDir {
-////    dirs 'libs'
-//    dirs "D:\\Users\\Administrator\\Repository\\github\\react-native-ttlock-upgrade\\android\\libs"
-//  }
+
   def found = false
   def defaultDir = null
   def androidSourcesName = 'React Native sources'
@@ -159,11 +124,7 @@ repositories {
 def kotlin_version = getExtOrDefault('kotlinVersion')
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
-//  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-//  implementation 'com.ttlock:ttlock:3.3.5'
-  implementation(name: 'ttlock-release', ext: 'aar')
-  implementation 'com.google.code.gson:gson:2.6.1'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

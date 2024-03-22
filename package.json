@@ -1,10 +1,10 @@
 {
   "name": "react-native-ttlock-upgrade",
-  "version": "2.1.4",
-  "description": "ttlock",
+  "version": "0.1.0",
+  "description": "ttlock upgrade sdk",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
+  "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://www.npmjs.com/package/react-native-ttlock-upgrade",
-  "author": "JLGB <ttlock-developers-email-list@googlegroups.com> (https://ttlock.com)",
+  "repository": "https://github.com/ttlock/react-native-ttlock-upgrade",
+  "author": "JLGB <chensg@sciener.cn> (https://github.com/ttlock)",
   "license": "MIT",
   "bugs": {
-    "url": "https://www.npmjs.com/package/react-native-ttlock-upgrade/issues"
+    "url": "https://github.com/ttlock/react-native-ttlock-upgrade/issues"
   },
-  "homepage": "https://www.npmjs.com/package/react-native-ttlock-upgrade#readme",
+  "homepage": "https://github.com/ttlock/react-native-ttlock-upgrade#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -57,6 +57,7 @@
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
     "jest": "^26.0.1",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
