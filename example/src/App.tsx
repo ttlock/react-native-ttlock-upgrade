@@ -9,11 +9,17 @@ const MainPage = ({ navigation }: {navigation: any}) => {
       <TouchableHighlight
         style={[styles.touchButton]}
         onPress={() => {
-          TtlockDFU.startUpgradeByFirmwarePackage("eee", 'eeee', (status:TtUpgradeProgress, percentage: number) => {
+          // TtlockDFU.startUpgradeByFirmwarePackage("eee", 'eeee', (status:TtUpgradeProgress, percentage: number) => {
+          //   console.log('返回数据:' +  status + "    进度：" + percentage)
+          // }, (error: TtUpgradeError) => {
+          //   console.log("错误码：" + error)
+          // })
+
+          TtlockDFU.startUpgradeByClient("clientId", "token", 3, "lockData", (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
           }, (error: TtUpgradeError) => {
             console.log("错误码：" + error)
-          })
+          });
         }}>
         <Text style={styles.touchButtonText}>Lock</Text>
       </TouchableHighlight>

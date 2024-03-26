@@ -31,7 +31,7 @@ RCT_EXPORT_METHOD(startLockDfuByClient:(NSString *)clientId accessToken:(NSStrin
     [[TTLockDFU shareInstance] startDfuWithClientId:clientId accessToken:accessToken lockId:lockId lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
         [self sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
     } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
-            fail(@[@(code)]);
+        fail(@[@(code)]);
     }];
 }
 
@@ -40,7 +40,7 @@ RCT_EXPORT_METHOD(startLockDfuByFirmwarePackage:(NSString *)firmwarePackage lock
     [[TTLockDFU shareInstance] startDfuWithFirmwarePackage:firmwarePackage lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
         [self sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
     } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
-            fail(@[@(code)]);
+        fail(@[@(code)]);
     }];
 }
 

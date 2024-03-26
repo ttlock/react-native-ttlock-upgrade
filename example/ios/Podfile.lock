@@ -189,7 +189,7 @@ PODS:
   - React-jsinspector (0.63.4)
   - react-native-ttlock-upgrade (0.1.0):
     - React-Core
-    - TTLockDFU
+    - TTLockDFU (= 3.3.4)
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -250,8 +250,8 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - TTLock (3.3.2)
-  - TTLockDFU (3.3.0):
+  - TTLock (3.3.4)
+  - TTLockDFU (3.3.4):
     - iOSDFULibrary (~> 4.11.0)
     - TTLock
   - Yoga (1.14.0)
@@ -370,7 +370,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-ttlock-upgrade: 48ebde34007eb102ff5fb25c3e43eadc03214ee8
+  react-native-ttlock-upgrade: ffb0c0c4e3cb5af0fa0c0cca98e67027e4b1befb
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -381,8 +381,8 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  TTLock: 8ce84c86096b9716300487a6a9717d2809a3feb8
-  TTLockDFU: 27c5052eba405843d0afe764c8da7d6f535e0f10
+  TTLock: fa4008ef59102efbead25f4bae3875fae0f9bb1f
+  TTLockDFU: 195d484aa8a8df621a613e6b5bf85e8752d64ade
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 

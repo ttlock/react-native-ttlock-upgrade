@@ -50,7 +50,7 @@ class TtlockDFU {
 
   static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startLockDfuByClient(clientId,accessToken,lockId, lockData, fail);
+    ttlockModule.startLockDfuByClient(clientId, accessToken, lockId, lockData, fail);
   }
 
   static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
