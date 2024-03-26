@@ -1,27 +1,69 @@
 # react-native-ttlock-upgrade
 
-ttlock upgrade sdk
+
+
+##### Developers Email && Quick Response
+
+ttlock-developers-email-list@googlegroups.com
 
 ## Installation
 
 ```sh
-npm install react-native-ttlock-upgrade
+yarn add react-native-ttlock-upgrade
 ```
 
-## Usage
+##  Upgrade
+
+
+
+#### Lock
 
 ```js
-import TtlockUpgrade from "react-native-ttlock-upgrade";
+import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
 
-// ...
+//Upgrade the lock and recover the data inside the lock
+TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progress: 		        TtUpgradeProgress, percentage: number) => {
+        console.log("status：" + progress + "    percentage：" + percentage)
+    }, (error: TtUpgradeError) => {
+        console.log("fail: " + error)
+})
 
-const result = await TtlockUpgrade.multiply(3, 7);
+//Only the upgrade lock will be restored to factory Settings after the upgrade is complete
+TtlockDFU.startUpgradeByFirmwarePackage("packageUrl", "lockData", (progress:                   TtUpgradeProgress, percentage: number) => {
+       console.log("status：" + progress + "    percentage：" + percentage)
+    }, (error: TtUpgradeError) => {
+        console.log("fail: " + error)
+})
+
+//Stop Upgrade
+TtlockDFU.stopUpgrade()
+
+
 ```
 
-## Contributing
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
-## License
 
-MIT
+
+#### Gateway
+
+```js
+import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
+
+//Upgrade the gateway 
+ TtGatewayDFU.startUpgrade(TtUpgradeType.Net, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage: number) => {
+            console.log("status：" + progress + "    percentage：" + percentage)
+    }, (error: TtUpgradeError) => {
+        console.log("fail: " + error)
+ })
+
+
+//Stop Upgrade
+TtGatewayDFU.stopUpgrade()
+
+```
+
+ 
+
+
+
