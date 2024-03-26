@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
-import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
+import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
 
 
 const MainPage = ({ navigation }: {navigation: any}) => {
@@ -23,7 +23,11 @@ const MainPage = ({ navigation }: {navigation: any}) => {
       <TouchableHighlight
         style={[styles.touchButton]}
         onPress={() => {
-         
+          TtGatewayDFU.startUpgrade(TtUpgradeType.Bluetooth, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage: number) => {
+            console.log('返回数据:' +  status + "    进度：" + percentage)
+          }, (error: TtUpgradeError) => {
+            console.log("错误码：" + error)
+          })
         }}>
         <Text style={styles.touchButtonText}>Gateway</Text>
       </TouchableHighlight>

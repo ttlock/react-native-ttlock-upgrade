@@ -10,13 +10,20 @@ const ttlockEventEmitter = new NativeEventEmitter(ttlockModule);
 const subscriptionMap = new Map();
 
 
-function progressCallback(progress: (status: TtUpgradeProgress, percentage: number) => void){
+function removeUpgreadeProgressEvent(){
   let subscription = subscriptionMap.get(EventUpgradeProgress)
   if (subscription !== undefined) {
     subscription.remove()
   }
+  return subscription
+}
+
+function progressCallback(progress: (status: TtUpgradeProgress, percentage: number) => void){
+  let subscription = removeUpgreadeProgressEvent()
   subscription = ttlockEventEmitter.addListener(EventUpgradeProgress, (data: any[]) => {
-    progress(data[0] as TtUpgradeProgress, data[1]);
+    if(progress){
+      progress(data[0] as TtUpgradeProgress, data[1]);
+    }
   });
   subscriptionMap.set(EventUpgradeProgress, subscription);
 }
@@ -28,21 +35,13 @@ function progressCallback(progress: (status: TtUpgradeProgress, percentage: numb
 
 class TtGatewayDFU {
 
-  static startUpgradeByClient(clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startGatewayDfuByClient(clientId,accessToken,gatewayId, gatewayMac, fail);
+    ttlockModule.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, fail);
   }
 
   static stopUpgrade(){
     ttlockModule.endGatewayUpgrade();
-  }
-
-  static restartUpgradeByNet(){
-    ttlockModule.restartGatewayUpgradeByNet();
-  }
-
-  static restartUpgradeByBluetooth(){
-    ttlockModule.restartGatewayUpgradeByBluetooth();
   }
 }
 
@@ -63,31 +62,32 @@ class TtlockDFU {
     ttlockModule.stopLockUpgrade();
   }
 
-  static restartUpgrade(){
-    ttlockModule.restartLockUpgrade();
-  }
-
 }
 
 enum TtUpgradeProgress {
   Preparing = 1,
-  Upgrading,
-  Recovering,
-  Success,
+  Upgrading = 2,
+  Recovering = 3,
+  Success = 4,
+}
+
+enum TtUpgradeType {
+  Net = 0,
+  Bluetooth = 1
 }
 
 
 enum TtUpgradeError {
   PeripheralPoweredOff  = 1,
-    ConnectTimeout,
-    NetFail,
-    NoNeedUpgrade,
-    UnknownUpgradeVersion,
-    EnterUpgradeState ,
-    UpgradeLockFail,
-    UpgradeOprationPreparingError,
-    UpgradeOprationGetSpecialValueError,
-    UpgradeFail,
-    UpgradeOprationSetLockTimeError
+    ConnectTimeout = 2,
+    NetFail = 3,
+    NoNeedUpgrade = 4,
+    UnknownUpgradeVersion = 5,
+    EnterUpgradeState = 6,
+    UpgradeLockFail = 7,
+    UpgradeOprationPreparingError = 8,
+    UpgradeOprationGetSpecialValueError = 9,
+    UpgradeFail = 10,
+    UpgradeOprationSetLockTimeError = 11
 }
-export { TtlockDFU, TtGatewayDFU, TtUpgradeProgress, TtUpgradeError }
+export { TtlockDFU, TtGatewayDFU, TtUpgradeProgress, TtUpgradeError, TtUpgradeType }

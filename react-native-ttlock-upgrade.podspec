@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
 
     #TTLockDFU 依赖
     s.platform = :ios, '9.0'
-    s.dependency 'TTLockDFU'
+    s.dependency 'TTLockDFU', '3.3.4'
     s.static_framework = true
 end

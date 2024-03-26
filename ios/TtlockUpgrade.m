@@ -27,7 +27,7 @@ RCT_EXPORT_MODULE()
 
 
 RCT_EXPORT_METHOD(startLockDfuByClient:(NSString *)clientId accessToken:(NSString *)accessToken lockId: (NSNumber *)lockId lockData:(NSString *) lockData  fail:(RCTResponseSenderBlock)fail)
-{
+{   
     [[TTLockDFU shareInstance] startDfuWithClientId:clientId accessToken:accessToken lockId:lockId lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
         [self sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
     } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
@@ -51,32 +51,16 @@ RCT_EXPORT_METHOD(stopLockUpgrade)
 }
 
 
-RCT_EXPORT_METHOD(restartLockUpgrade)
+RCT_EXPORT_METHOD(startGatewayDfuByType:(NSNumber *)type clientId:(NSString *)clientId accessToken:(NSString *)accessToken gatewayId: (NSNumber *)gatewayId gatewayMac:(NSString *) gatewayMac  fail:(RCTResponseSenderBlock)fail)
 {
-    [[TTLockDFU shareInstance] retry];
-}
-
-
-RCT_EXPORT_METHOD(startGatewayDfuByClient:(NSString *)clientId accessToken:(NSString *)accessToken gatewayId: (NSNumber *)gatewayId gatewayMac:(NSString *) gatewayMac  fail:(RCTResponseSenderBlock)fail)
-{
-    [[TTGatewayDFU shareInstance] startDfuWithClientId:clientId accessToken:accessToken gatewayId:gatewayId gatewayMac:gatewayMac successBlock:^(UpgradeOpration type, NSInteger process) {
+    TTGatewayDFUType dfuType = type.intValue == 0 ? TTGatewayDFUTypeByNet : TTGatewayDFUTypeByBluetooth;
+    [[TTGatewayDFU shareInstance] startDfuWithType:dfuType clientId:clientId accessToken:accessToken gatewayId:gatewayId gatewayMac:gatewayMac successBlock:^(UpgradeOpration type, NSInteger process) {
         [self sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
     } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
         fail(@[@(code)]);
     }];
 }
 
-
-RCT_EXPORT_METHOD(restartGatewayUpgradeByNet)
-{
-    [[TTGatewayDFU shareInstance] retryEnterUpgradeModebyNet];
-}
-
-
-RCT_EXPORT_METHOD(restartGatewayUpgradeByBluetooth)
-{
-    [[TTGatewayDFU shareInstance] retryEnterUpgradeModebyBluetooth];
-}
 
 RCT_EXPORT_METHOD(endGatewayUpgrade)
 {
