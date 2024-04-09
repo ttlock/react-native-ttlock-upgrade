@@ -176,7 +176,22 @@ android {
 
         }
     }
+
+  sourceSets {
+    main {
+      jniLibs.srcDirs = ['libs']
+    }
+  }
+
+  //添加本地仓库，并把libs目录作为仓库地址
+  repositories {
+    flatDir {
+      dirs 'libs'
+    }
+  }
 }
+
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
