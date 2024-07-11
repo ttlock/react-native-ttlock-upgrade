@@ -19,8 +19,9 @@ Pod::Spec.new do |s|
 
   s.dependency "React-Core"
 
-    #TTLockDFU 依赖
-    s.platform = :ios, '9.0'
-    s.dependency 'TTLockDFU', '3.3.4'
-    s.static_framework = true
+  #TTLockDFUOnPremise 依赖
+  s.platform = :ios, '9.0'
+  s.vendored_frameworks = "ios/Frameworks/*.xcframework"
+  s.dependency 'iOSDFULibrary', '4.11.0'
+  s.static_framework = true
 end

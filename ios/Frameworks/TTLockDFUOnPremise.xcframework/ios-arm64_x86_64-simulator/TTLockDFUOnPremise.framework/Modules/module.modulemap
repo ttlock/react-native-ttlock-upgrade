@@ -1,0 +1,6 @@
+framework module TTLockDFUOnPremise {
+  umbrella header "TTLockDFUOnPremise.h"
+  export *
+
+  module * { export * }
+}

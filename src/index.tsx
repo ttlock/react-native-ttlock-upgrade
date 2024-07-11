@@ -35,9 +35,9 @@ function progressCallback(progress: (status: TtUpgradeProgress, percentage: numb
 
 class TtGatewayDFU {
 
-  static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgrade(firmwarePackage: string, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, fail);
+    ttlockModule.startGatewayDfuByFirmwarePackage(firmwarePackage, gatewayMac, fail);
   }
 
   static stopUpgrade(){
@@ -47,11 +47,6 @@ class TtGatewayDFU {
 
 
 class TtlockDFU {
-
-  static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
-    progressCallback(progress)
-    ttlockModule.startLockDfuByClient(clientId, accessToken, lockId, lockData, fail);
-  }
 
   static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)

@@ -19,7 +19,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - iOSDFULibrary (4.11.1):
+  - iOSDFULibrary (4.11.0):
     - ZIPFoundation (= 0.9.11)
   - RCTRequired (0.63.4)
   - RCTTypeSafety (0.63.4):
@@ -188,8 +188,8 @@ PODS:
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
   - react-native-ttlock-upgrade (0.1.0):
+    - iOSDFULibrary (= 4.11.0)
     - React-Core
-    - TTLockDFU (= 3.3.4)
   - React-RCTActionSheet (0.63.4):
     - React-Core/RCTActionSheetHeaders (= 0.63.4)
   - React-RCTAnimation (0.63.4):
@@ -250,10 +250,6 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - TTLock (3.3.4)
-  - TTLockDFU (3.3.4):
-    - iOSDFULibrary (~> 4.11.0)
-    - TTLock
   - Yoga (1.14.0)
   - ZIPFoundation (0.9.11)
 
@@ -292,8 +288,6 @@ SPEC REPOS:
   trunk:
     - boost-for-react-native
     - iOSDFULibrary
-    - TTLock
-    - TTLockDFU
     - ZIPFoundation
 
 EXTERNAL SOURCES:
@@ -359,7 +353,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: f2c97f2529dd79c083355182cc158c9f98f4bd6e
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  iOSDFULibrary: 3500ac00451aa7d8ec48a752e91099669a2c1d27
+  iOSDFULibrary: ca2a4da1f1680fe4957b0a33ad605c9e10f7ae7c
   RCTRequired: 082f10cd3f905d6c124597fd1c14f6f2655ff65e
   RCTTypeSafety: 8c9c544ecbf20337d069e4ae7fd9a377aadf504b
   React: b0a957a2c44da4113b0c4c9853d8387f8e64e615
@@ -370,7 +364,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
-  react-native-ttlock-upgrade: ffb0c0c4e3cb5af0fa0c0cca98e67027e4b1befb
+  react-native-ttlock-upgrade: d161e5903499fc4ee67bb17ba91de89c07de3afc
   React-RCTActionSheet: 89a0ca9f4a06c1f93c26067af074ccdce0f40336
   React-RCTAnimation: 1bde3ecc0c104c55df246eda516e0deb03c4e49b
   React-RCTBlob: a97d378b527740cc667e03ebfa183a75231ab0f0
@@ -381,8 +375,6 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  TTLock: fa4008ef59102efbead25f4bae3875fae0f9bb1f
-  TTLockDFU: 195d484aa8a8df621a613e6b5bf85e8752d64ade
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
