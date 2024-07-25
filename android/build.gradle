@@ -48,6 +48,14 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
+  //添加本地仓库，并把libs目录作为仓库地址
+  repositories {
+    flatDir {
+      dirs 'libs'
+    }
+  }
+
 }
 
 repositories {
@@ -127,7 +135,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
 //  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-//  implementation(name: 'ttlock-release', ext: 'aar')
-  implementation 'com.ttlock:ttlock:3.3.9'
+  implementation(name: 'ttlock-release', ext: 'aar')
+//  implementation 'com.ttlock:ttlock:3.3.9'
   implementation 'no.nordicsemi.android:dfu:1.11.1'
 }

@@ -16,7 +16,7 @@ import com.reactnativettlockupgrade.model.TTLockEvent;
 import com.reactnativettlockupgrade.model.TTUpgradeError;
 import com.reactnativettlockupgrade.model.TTUpgradeStatus;
 import com.reactnativettlockupgrade.util.PermissionUtils;
-import com.ttlock.bl.sdk.api.EncryptionUtil;
+import com.ttlock.bl.sdk.util.EncryptionUtil;
 import com.ttlock.bl.sdk.api.LockDfuClient;
 import com.ttlock.bl.sdk.callback.DfuCallback;
 import com.ttlock.bl.sdk.entity.LockData;
