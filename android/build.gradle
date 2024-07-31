@@ -135,7 +135,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
 //  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation(name: 'ttlock-release', ext: 'aar')
-//  implementation 'com.ttlock:ttlock:3.3.9'
+//  implementation(name: 'ttlock-release', ext: 'aar')
+  implementation 'com.ttlock:ttlock:3.5.0'
   implementation 'no.nordicsemi.android:dfu:1.11.1'
 }
