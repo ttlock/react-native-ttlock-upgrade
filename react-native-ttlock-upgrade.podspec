@@ -21,7 +21,9 @@ Pod::Spec.new do |s|
 
   #TTLockDFUOnPremise 依赖
   s.platform = :ios, '9.0'
-  s.vendored_frameworks = "ios/Frameworks/*.xcframework"
   s.dependency 'iOSDFULibrary', '4.11.0'
+  s.dependency 'TTLockDFUOnPremise', '2.1.2'
   s.static_framework = true
+  
+    
 end
