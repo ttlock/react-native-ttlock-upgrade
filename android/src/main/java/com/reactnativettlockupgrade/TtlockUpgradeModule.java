@@ -28,8 +28,6 @@ import com.ttlock.bl.sdk.util.LogUtil;
 @ReactModule(name = "TtlockUpgrade")
 public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   private final ReactApplicationContext reactContext;
-  private String cacheGatewayMac;
-
 
   public TtlockUpgradeModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -41,63 +39,16 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
     return "TtlockUpgrade";
   }
 
-  @ReactMethod
-  public void startLockDfuByClient(String clientId, String accessToken, int lockId, String lockData, Callback fail) {
-    PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
-      if (success) {
-        LockData lockParam = EncryptionUtil.parseLockData(lockData);
-        LockDfuClient.getDefault().startDfu(reactContext, clientId, accessToken, lockId, lockData, lockParam.lockMac, new DfuCallback() {
-          @Override
-          public void onDfuSuccess(String deviceAddress) {
-            progressCallback(TTUpgradeStatus.Success, 100);
-          }
-
-          @Override
-          public void onStatusChanged(int status) {
-            int process = 0;
-            switch (status) {
-              case TTUpgradeStatus.Preparing:
-                process = 0;
-                break;
-              case TTUpgradeStatus.Upgrading:
-                process = 0;
-                break;
-              case TTUpgradeStatus.Recovering:
-                process = 100;
-                break;
-              case TTUpgradeStatus.Success:
-                process = 100;
-                break;
-            }
-            progressCallback(status, process);
-          }
-
-          @Override
-          public void onDfuAborted(String deviceAddress) {
-            fail.invoke(TTUpgradeError.UpgradeFail);
-          }
-
-          @Override
-          public void onProgressChanged(String deviceAddress, int percent, float speed, float avgSpeed, int currentPart, int partsTotal) {
-            progressCallback(TTUpgradeStatus.Upgrading, percent);
-          }
-
-          @Override
-          public void onError(int errorCode, String errorContent) {
-            convertErrorCodeCallback(fail, errorCode);
-          }
-        });
-      } else {
-        LogUtil.d("no scan permission");
-      }
-    });
-  }
 
   @ReactMethod
   public void startLockDfuByFirmwarePackage(String firmwarePackage, String lockData, Callback fail) {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         LockData lockParam = EncryptionUtil.parseLockData(lockData);
+        if (lockParam == null) {
+          fail.invoke(TTUpgradeError.UpgradeFail);
+          return;
+        }
         LockDfuClient.getDefault().startDfu(reactContext, lockData, lockParam.lockMac, firmwarePackage, new DfuCallback() {
           @Override
           public void onDfuSuccess(String deviceAddress) {
@@ -176,15 +127,12 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void startGatewayDfuByType(int type, String clientId, String accessToken,int gatewayId, String gatewayMac, Callback fail) {
+  public void startGatewayDfuByFirmwarePackage(String firmwarePackage, String gatewayMac, Callback fail) {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
-        if (!gatewayMac.equals(cacheGatewayMac)) {
-          cacheGatewayMac = gatewayMac;
-          GatewayDfuClient.getDefault().startDfu(reactContext, clientId, accessToken, gatewayId, gatewayMac, new com.ttlock.bl.sdk.gateway.callback.DfuCallback() {
+          GatewayDfuClient.getDefault().startDfu(reactContext, gatewayMac, firmwarePackage, new com.ttlock.bl.sdk.gateway.callback.DfuCallback() {
             @Override
             public void onDfuSuccess(String deviceAddress) {
-              cacheGatewayMac = "";
               progressCallback(TTUpgradeStatus.Success, 100);
             }
 
@@ -203,16 +151,6 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
               fail.invoke(TTUpgradeError.UpgradeFail);
             }
           });
-        } else {//相当于重试
-          switch (type) {
-            case 0://net
-              GatewayDfuClient.getDefault().retryEnterDfuModeByNet();
-              break;
-            case 1://bluetooth
-              GatewayDfuClient.getDefault().retryEnterDfuModeByBle();
-              break;
-          }
-        }
       } else {
         LogUtil.d("no scan permission");
       }
