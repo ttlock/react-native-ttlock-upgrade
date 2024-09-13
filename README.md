@@ -52,6 +52,7 @@ TtlockDFU.stopUpgrade()
 import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
 
 //Upgrade the gateway 
+//Note: Before upgrading the gateway, you need to power it on again. In this case, the red and blue indicators are blinking alternately
 TtGatewayDFU.startUpgrade(
     firmwarePackage,
      gatewaMac, 
