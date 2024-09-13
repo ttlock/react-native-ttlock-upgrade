@@ -21,7 +21,7 @@ yarn add react-native-ttlock-upgrade
 ```js
 import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
 
-//Upgrade the lock and recover the data inside the lock
+//Start upgrade method 1
 TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progress: TtUpgradeProgress, percentage: number) => {
         console.log("status：" + progress + "    percentage：" + percentage)
     }, (newLockData: string) => {
@@ -30,7 +30,7 @@ TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progre
         console.log("fail: " + error)
 })  
 
-//Only the upgrade lock will be restored to factory Settings after the upgrade is complete
+//Start upgrade method 2
 TtlockDFU.startUpgradeByFirmwarePackage("packageUrl", "lockData", (progress: TtUpgradeProgress, percentage: number) => {
        console.log("status：" + progress + "    percentage：" + percentage)
     }, (newLockData: string) => {
