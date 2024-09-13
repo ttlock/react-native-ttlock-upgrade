@@ -24,8 +24,8 @@ import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-
 //Upgrade the lock and recover the data inside the lock
 TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progress: TtUpgradeProgress, percentage: number) => {
         console.log("status：" + progress + "    percentage：" + percentage)
-    }, (newLockDate: string) => {
-        console.log("upgrade success: " + newLockDate)
+    }, (newLockData: string) => {
+        console.log("upgrade success: " + newLockData)
     }, (error: TtUpgradeError) => {
         console.log("fail: " + error)
 })  
@@ -33,8 +33,8 @@ TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progre
 //Only the upgrade lock will be restored to factory Settings after the upgrade is complete
 TtlockDFU.startUpgradeByFirmwarePackage("packageUrl", "lockData", (progress: TtUpgradeProgress, percentage: number) => {
        console.log("status：" + progress + "    percentage：" + percentage)
-    }, (newLockDate: string) => {
-        console.log("upgrade success: " + newLockDate)
+    }, (newLockData: string) => {
+        console.log("upgrade success: " + newLockData)
     }, (error: TtUpgradeError) => {
         console.log("fail: " + error)
 })

@@ -31,12 +31,12 @@ function progressCallback(progress: (status: TtUpgradeProgress, percentage: numb
 
 class TtlockDFU {
 
-  static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockDate: string) => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockData: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
     ttlockModule.startLockDfuByClient(clientId, accessToken, lockId, lockData, success, fail);
   }
 
-  static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockDate: string) => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockData: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
     ttlockModule.startLockDfuByFirmwarePackage(firmwarePackage, lockData, success, fail);
   }

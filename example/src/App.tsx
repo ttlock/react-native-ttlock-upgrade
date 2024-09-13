@@ -17,8 +17,8 @@ const MainPage = ({ navigation }: {navigation: any}) => {
 
           TtlockDFU.startUpgradeByClient("clientId", "token", 3, "lockData", (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
-          }, (newLockDate: string) => {
-            console.log("upgrade success: " + newLockDate)
+          }, (newLockData: string) => {
+            console.log("upgrade success: " + newLockData)
         }, (error: TtUpgradeError) => {
             console.log("错误码：" + error)
           });
