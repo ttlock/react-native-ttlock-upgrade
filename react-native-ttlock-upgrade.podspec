@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   #TTLockDFUOnPremise 依赖
   s.platform = :ios, '9.0'
   s.dependency 'iOSDFULibrary', '4.11.0'
-  s.dependency 'TTLockDFUOnPremise', '2.1.2'
+  s.dependency 'TTLockDFUOnPremise', '2.1.3'
   s.static_framework = true
   
     
