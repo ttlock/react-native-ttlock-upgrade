@@ -9,15 +9,11 @@ const MainPage = ({ navigation }: {navigation: any}) => {
       <TouchableHighlight
         style={[styles.touchButton]}
         onPress={() => {
-          // TtlockDFU.startUpgradeByFirmwarePackage("eee", 'eeee', (status:TtUpgradeProgress, percentage: number) => {
-          //   console.log('返回数据:' +  status + "    进度：" + percentage)
-          // }, (error: TtUpgradeError) => {
-          //   console.log("错误码：" + error)
-          // })
-
           TtlockDFU.startUpgradeByFirmwarePackage("firmwarePackage download from ttlock api",  "lockData", (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
-          }, (error: TtUpgradeError) => {
+          }, (newLockData: string) => {
+            console.log("新锁数据：" + newLockData)
+          },(error: TtUpgradeError) => {
             console.log("错误码：" + error)
           });
         }}>
@@ -31,6 +27,8 @@ const MainPage = ({ navigation }: {navigation: any}) => {
         onPress={() => {
           TtGatewayDFU.startUpgrade("firmwarePackage download from ttlock api", "gatewa mac", (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
+          }, () => {
+            console.log("升级成功")
           }, (error: TtUpgradeError) => {
             console.log("错误码：" + error)
           })

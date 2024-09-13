@@ -8,8 +8,15 @@ ttlock-developers-email-list@googlegroups.com
 
 ## Installation
 
-```sh
-yarn add react-native-ttlock-upgrade
+```js
+package.json
+
+{
+  "name": "your-project",
+  "dependencies": {
+    "react-native-ttlock-upgrade": "https://github.com/ttlock/react-native-ttlock-upgrade.git#premise"
+  }
+}
 ```
 
 ##  Upgrade
@@ -21,19 +28,15 @@ yarn add react-native-ttlock-upgrade
 ```js
 import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
 
-//Upgrade the lock and recover the data inside the lock
-TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progress: TtUpgradeProgress, percentage: number) => {
-        console.log("status：" + progress + "    percentage：" + percentage)
-    }, (error: TtUpgradeError) => {
-        console.log("fail: " + error)
-})
+//The lock will be restored to factory Settings after the upgrade is complete
+TtlockDFU.startUpgradeByFirmwarePackage(firmwarePackage,  lockData, (status:TtUpgradeProgress, percentage: number) => {
+            console.log("status：" + progress + "    percentage：" + percentage)
+          }, (newLockData: string) => {
+            console.log("upgrade success newLockData：" + newLockData)
+          },(error: TtUpgradeError) => {
+            console.log("fail：" + error)
+          });
 
-//Only the upgrade lock will be restored to factory Settings after the upgrade is complete
-TtlockDFU.startUpgradeByFirmwarePackage("packageUrl", "lockData", (progress: TtUpgradeProgress, percentage: number) => {
-       console.log("status：" + progress + "    percentage：" + percentage)
-    }, (error: TtUpgradeError) => {
-        console.log("fail: " + error)
-})
 
 //Stop Upgrade
 TtlockDFU.stopUpgrade()
@@ -43,20 +46,23 @@ TtlockDFU.stopUpgrade()
 
 
 
-
-
 #### Gateway
 
 ```js
 import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
 
 //Upgrade the gateway 
- TtGatewayDFU.startUpgrade(TtUpgradeType.Net, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage: number) => {
-            console.log("status：" + progress + "    percentage：" + percentage)
-    }, (error: TtUpgradeError) => {
+TtGatewayDFU.startUpgrade(
+    firmwarePackage,
+     gatewaMac, 
+     (status:TtUpgradeProgress, percentage: number) => {
+        console.log("status：" + progress + "    percentage：" + percentage)
+    }, ()=>{
+        console.log("upgrade success")
+    },(error: TtUpgradeError) => {
         console.log("fail: " + error)
- })
-
+    }
+)
 
 //Stop Upgrade
 TtGatewayDFU.stopUpgrade()
