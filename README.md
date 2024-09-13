@@ -24,13 +24,17 @@ import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-
 //Upgrade the lock and recover the data inside the lock
 TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progress: TtUpgradeProgress, percentage: number) => {
         console.log("status：" + progress + "    percentage：" + percentage)
+    }, (newLockDate: string) => {
+        console.log("upgrade success: " + newLockDate)
     }, (error: TtUpgradeError) => {
         console.log("fail: " + error)
-})
+})  
 
 //Only the upgrade lock will be restored to factory Settings after the upgrade is complete
 TtlockDFU.startUpgradeByFirmwarePackage("packageUrl", "lockData", (progress: TtUpgradeProgress, percentage: number) => {
        console.log("status：" + progress + "    percentage：" + percentage)
+    }, (newLockDate: string) => {
+        console.log("upgrade success: " + newLockDate)
     }, (error: TtUpgradeError) => {
         console.log("fail: " + error)
 })
@@ -51,11 +55,14 @@ TtlockDFU.stopUpgrade()
 import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
 
 //Upgrade the gateway 
- TtGatewayDFU.startUpgrade(TtUpgradeType.Net, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage: number) => {
-            console.log("status：" + progress + "    percentage：" + percentage)
+ TtGatewayDFU.startUpgrade(TtUpgradeType.Net, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage:   number) => {
+        console.log("status：" + progress + "    percentage：" + percentage)
+    }, () => {
+        console.log("upgrade success")
     }, (error: TtUpgradeError) => {
         console.log("fail: " + error)
- })
+    }
+)
 
 
 //Stop Upgrade

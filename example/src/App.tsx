@@ -17,7 +17,9 @@ const MainPage = ({ navigation }: {navigation: any}) => {
 
           TtlockDFU.startUpgradeByClient("clientId", "token", 3, "lockData", (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
-          }, (error: TtUpgradeError) => {
+          }, (newLockDate: string) => {
+            console.log("upgrade success: " + newLockDate)
+        }, (error: TtUpgradeError) => {
             console.log("错误码：" + error)
           });
         }}>
@@ -31,7 +33,9 @@ const MainPage = ({ navigation }: {navigation: any}) => {
         onPress={() => {
           TtGatewayDFU.startUpgrade(TtUpgradeType.Bluetooth, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
-          }, (error: TtUpgradeError) => {
+          }, () => {
+            console.log("upgrade success")
+        }, (error: TtUpgradeError) => {
             console.log("错误码：" + error)
           })
         }}>

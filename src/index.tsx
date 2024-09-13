@@ -28,34 +28,17 @@ function progressCallback(progress: (status: TtUpgradeProgress, percentage: numb
   subscriptionMap.set(EventUpgradeProgress, subscription);
 }
 
-// function failCallback(fail: (error:TtUpgradeError) => void){
-//   fail(console.error();
-//   )
-// }
-
-class TtGatewayDFU {
-
-  static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
-    progressCallback(progress)
-    ttlockModule.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, fail);
-  }
-
-  static stopUpgrade(){
-    ttlockModule.endGatewayUpgrade();
-  }
-}
-
 
 class TtlockDFU {
 
-  static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockDate: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startLockDfuByClient(clientId, accessToken, lockId, lockData, fail);
+    ttlockModule.startLockDfuByClient(clientId, accessToken, lockId, lockData, success, fail);
   }
 
-  static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockDate: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startLockDfuByFirmwarePackage(firmwarePackage, lockData, fail);
+    ttlockModule.startLockDfuByFirmwarePackage(firmwarePackage, lockData, success, fail);
   }
 
   static stopUpgrade(){
@@ -64,11 +47,23 @@ class TtlockDFU {
 
 }
 
+class TtGatewayDFU {
+  static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: () => void, fail: (error:TtUpgradeError) => void) {
+    progressCallback(progress)
+    ttlockModule.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, success, fail);
+  }
+
+  static stopUpgrade(){
+    ttlockModule.endGatewayUpgrade();
+  }
+}
+
+
+
 enum TtUpgradeProgress {
   Preparing = 1,
   Upgrading = 2,
-  Recovering = 3,
-  Success = 4,
+  Recovering = 3
 }
 
 enum TtUpgradeType {
