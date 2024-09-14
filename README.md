@@ -28,7 +28,6 @@ package.json
 ```js
 import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
 
-//The lock will be restored to factory Settings after the upgrade is complete
 TtlockDFU.startUpgradeByFirmwarePackage(firmwarePackage,  lockData, (status:TtUpgradeProgress, percentage: number) => {
             console.log("status：" + progress + "    percentage：" + percentage)
           }, (newLockData: string) => {
