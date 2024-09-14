@@ -19,11 +19,11 @@ package.json
 }
 ```
 
+
+
 ##  Upgrade
 
-
-
-#### Lock
+### Lock
 
 ```js
 import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
@@ -45,13 +45,15 @@ TtlockDFU.stopUpgrade()
 
 
 
-#### Gateway
+### Gateway
 
 ```js
 import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
 
 //Upgrade the gateway 
-//Note: Before upgrading the gateway, you need to power it on again. In this case, the red and blue indicators are blinking alternately
+
+// Note: Before upgrading the gateway, you need to re-power it. In this case, the red and blue indicators are blinking alternately.If you don't want to re-power the gateway manually, you can also call the server api gateway/enterUpgradeMode instead 
+
 TtGatewayDFU.startUpgrade(
     firmwarePackage,
      gatewaMac, 
