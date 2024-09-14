@@ -16,6 +16,10 @@ import com.reactnativettlockupgrade.model.TTLockEvent;
 import com.reactnativettlockupgrade.model.TTUpgradeError;
 import com.reactnativettlockupgrade.model.TTUpgradeStatus;
 import com.reactnativettlockupgrade.util.PermissionUtils;
+import com.ttlock.bl.sdk.api.TTLockClient;
+import com.ttlock.bl.sdk.callback.GetLockSystemInfoCallback;
+import com.ttlock.bl.sdk.entity.DeviceInfo;
+import com.ttlock.bl.sdk.entity.LockError;
 import com.ttlock.bl.sdk.util.EncryptionUtil;
 import com.ttlock.bl.sdk.api.LockDfuClient;
 import com.ttlock.bl.sdk.callback.DfuCallback;
@@ -42,14 +46,14 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void startLockDfuByClient(String clientId, String accessToken, int lockId, String lockData, Callback fail) {
+  public void startLockDfuByClient(String clientId, String accessToken, int lockId, String lockData, Callback successCallback, Callback fail) {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         LockData lockParam = EncryptionUtil.parseLockData(lockData);
         LockDfuClient.getDefault().startDfu(reactContext, clientId, accessToken, lockId, lockData, lockParam.lockMac, new DfuCallback() {
           @Override
           public void onDfuSuccess(String deviceAddress) {
-            progressCallback(TTUpgradeStatus.Success, 100);
+            getLockSysInfo(lockData, successCallback, fail);
           }
 
           @Override
@@ -93,15 +97,29 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
     });
   }
 
+  private void getLockSysInfo(String lockData, Callback successCallback, Callback fail) {
+    TTLockClient.getDefault().getLockSystemInfo(lockData, new GetLockSystemInfoCallback() {
+      @Override
+      public void onGetLockSystemInfoSuccess(DeviceInfo deviceInfo) {
+        successCallback.invoke(deviceInfo.lockData);
+      }
+
+      @Override
+      public void onFail(LockError lockError) {
+        fail.invoke(3);
+      }
+    });
+  }
+
   @ReactMethod
-  public void startLockDfuByFirmwarePackage(String firmwarePackage, String lockData, Callback fail) {
+  public void startLockDfuByFirmwarePackage(String firmwarePackage, String lockData, Callback successCallback, Callback fail) {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         LockData lockParam = EncryptionUtil.parseLockData(lockData);
         LockDfuClient.getDefault().startDfu(reactContext, lockData, lockParam.lockMac, firmwarePackage, new DfuCallback() {
           @Override
           public void onDfuSuccess(String deviceAddress) {
-            progressCallback(TTUpgradeStatus.Success, 100);
+            getLockSysInfo(lockData, successCallback, fail);
           }
 
           @Override
@@ -176,7 +194,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void startGatewayDfuByType(int type, String clientId, String accessToken,int gatewayId, String gatewayMac, Callback fail) {
+  public void startGatewayDfuByType(int type, String clientId, String accessToken,int gatewayId, String gatewayMac, Callback successCallback, Callback fail) {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         if (!gatewayMac.equals(cacheGatewayMac)) {
@@ -185,7 +203,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
             @Override
             public void onDfuSuccess(String deviceAddress) {
               cacheGatewayMac = "";
-              progressCallback(TTUpgradeStatus.Success, 100);
+              successCallback.invoke();
             }
 
             @Override
