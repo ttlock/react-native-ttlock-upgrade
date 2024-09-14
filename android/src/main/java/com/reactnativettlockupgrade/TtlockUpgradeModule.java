@@ -34,6 +34,8 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   private final ReactApplicationContext reactContext;
   private String cacheGatewayMac;
 
+  private Callback cacheSuccessCallback;
+  private Callback cacheFailCallback;
 
   public TtlockUpgradeModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -199,6 +201,8 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void startGatewayDfuByType(int type, String clientId, String accessToken,int gatewayId, String gatewayMac, Callback successCallback, Callback fail) {
+    cacheSuccessCallback = successCallback;
+    cacheFailCallback = fail;
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         if (!gatewayMac.equals(cacheGatewayMac)) {
@@ -207,12 +211,12 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
             @Override
             public void onDfuSuccess(String deviceAddress) {
               cacheGatewayMac = "";
-              successCallback.invoke();
+              cacheSuccessCallback.invoke();
             }
 
             @Override
             public void onDfuAborted(String deviceAddress) {
-              fail.invoke(TTUpgradeError.UpgradeFail);
+              cacheFailCallback.invoke(TTUpgradeError.UpgradeFail);
             }
 
             @Override
@@ -222,7 +226,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onError() {
-              fail.invoke(TTUpgradeError.UpgradeFail);
+              cacheFailCallback.invoke(TTUpgradeError.UpgradeFail);
             }
           });
         } else {//相当于重试
