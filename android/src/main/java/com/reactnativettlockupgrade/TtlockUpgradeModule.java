@@ -50,6 +50,10 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         LockData lockParam = EncryptionUtil.parseLockData(lockData);
+        if (lockParam == null) {
+          fail.invoke(TTUpgradeError.UpgradeFail);
+          return;
+        }
         LockDfuClient.getDefault().startDfu(reactContext, clientId, accessToken, lockId, lockData, lockParam.lockMac, new DfuCallback() {
           @Override
           public void onDfuSuccess(String deviceAddress) {
@@ -98,7 +102,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   }
 
   private void getLockSysInfo(String lockData, Callback successCallback, Callback fail) {
-    TTLockClient.getDefault().getLockSystemInfo(lockData, new GetLockSystemInfoCallback() {
+    TTLockClient.getDefault().getLockSystemInfo(lockData, null, new GetLockSystemInfoCallback() {
       @Override
       public void onGetLockSystemInfoSuccess(DeviceInfo deviceInfo) {
         successCallback.invoke(deviceInfo.lockData);
