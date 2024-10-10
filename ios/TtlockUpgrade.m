@@ -33,8 +33,8 @@ RCT_EXPORT_METHOD(startLockDfuByClient:(NSString *)clientId accessToken:(NSStrin
     __weak TtlockUpgrade *weakSelf = self;
     [[TTLockDFU shareInstance] startDfuWithClientId:clientId accessToken:accessToken lockId:lockId lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
         if (type == UpgradeOprationSuccess) {
-            [TTLock getLockFeatureValueWithLockData:lockData success:^(NSString *newLockData) {
-                success(@[newLockData]);
+            [TTLock getLockSystemInfoWithLockData:lockData success:^(TTSystemInfoModel *systemModel) {
+                success(@[[systemModel lockData]]);
             } failure:^(TTError errorCode, NSString *errorMsg) {
                 success(@[lockData]);
             }];
