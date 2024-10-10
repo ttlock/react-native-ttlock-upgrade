@@ -46,8 +46,8 @@ RCT_EXPORT_METHOD(startLockDfuByFirmwarePackage:(NSString *)firmwarePackage lock
 {
     [[TTLockDFUOnPremise shareInstance] startDfuWithFirmwarePackage:firmwarePackage lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
         if (type == UpgradeOprationSuccess) {
-            [TTLock getLockFeatureValueWithLockData:lockData success:^(NSString *newLockData) {
-                success(@[newLockData]);
+            [TTLock getLockSystemInfoWithLockData:lockData success:^(TTSystemInfoModel *systemModel) {
+                success(@[[systemModel lockData]]);
             } failure:^(TTError errorCode, NSString *errorMsg) {
                 success(@[lockData]);
             }];
