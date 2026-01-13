@@ -2,6 +2,8 @@ import * as React from 'react';
 import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
 import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
 
+const LOCK_DATA = "9J+QyZ/5W4s2khQb9vZ3kbz1t/jTXxnwu5rEepqg3jmkA5IaHZC2RkfZ12LfabtugDBcW0NFe+vU8fIrlByCZT+bA5eYUuQpbFPcAnWsIT8Fc5zei8FPiyxt63KS27aQyE22yYodT+BuJUcRBh15GaZVCOF7mSUZeKhV1wQLa5H5LPaEfwi2nIXF6lF3M9+PYvoxGk8Li7w1yWnpE+1OKSC86KrsJgkiYLxlQWRONoJkCfzOyhZMV5lgJ4bFE4KHKgDEb0v2fra2l3LzSjyid+YjYctZqW51Oy0r+RFmNf7n79BZpgx1u1SutCb1TW9Etqay3M0sYTW4Zmckd7Na2+4rbOSIWWT9diukznAVg+OdXKFaac9cTllGYKK219JamZ1iffBGHraggn4cJ4EErV82a443OCJ9I9V38PdDM/nnaWP+kbl9sH84zJbW/iHCqfolMOgLfVa5IAOq0/xMzh7FDVbll8xDpkMjKEtsHPhfas9vTYw4Ugj/3yWiudCUK3L3gcidkUrfAwGTE5VSDn+Qcmdb4MMZ0Sb92Hvl7NhRpaczQ6FPTEBK+Qk4Azw59Dhr9Uf6Fk371V9T532tDA3Iy+bu6O/4Oedxeha+CeywnUyFBI/YhjlbA9fPN3BRqzU1ftqj/YXTOMNJ8+YQkc1XJ/6hPQgE3Glk8fPFtyyYXmxWoKAL/WGz9TAVwLyO5ZVMQFEN1aTmqRaWexfTn8AmwiIM5Xbq/cTxQTeWl6XARMhnh4LL3rfxSvNHMVVhmoGZ9XCHjSj/odBZM6cbjCWrk4M3F8MLlNIZQQkXdTjtu8AConvx/03oDnFm+cDyjg18I8mOhDFC940wo/mORfSccctOzl6SmqLygsOwdBPMWfagOuikMjXSIWvj2J5IHaYt979wxeS198fjBVEuXJRtc+iqK7Dcov95bhVg0rtAFySzHPn/V7Fwi/0TDlDi1AZ74QUnNO14gByVpAlufovDcXgtiTUdtWAT38qCjI3wHWIJuHoAo7axgI7e53IL9anSojJKY8L3V3ot/ochib7hiHBmrND7ow3PRMpsuLMyT5k/AdeJGPTTAEbszL3fEjDOHY21uK/KotZ0WAX7g/PtkbDQy0+uKEHG0zZcpAdPeAo7xvdhbfmC5TVpzVh8aWDePfUpGspeWetGc7JngNwsK836S+YdBKwCJ4agBQL4eVWSnEPN3x3cXVlGzOsiMVKjJp2gMgnDPmByPGOb0EueIlGrNXKNdtaASW7uH+bAJDQCuzk=";
+const FRIMWARE_PKG = "LTk3LC01OCwtMTI4LC0xMjcsLTEyMSwtMTA2LC05OSwtMTA4LC0xMTIsLTExNSwtMTE3LC0xMTgsLTgxLC0xMjcsLTk5LC01OCwtMzQsLTU4LC00MywtNDUsLTQxLC00NSwtNDEsLTQ3LC00NiwtMzYsLTQ1LC00OCwtNDIsLTQxLC00NiwtNDQsLTQ0LC00NCwtNTgsLTU2LC01OCwtMTExLC0xMDYsLTEyMCwtNTgsLTM0LC01OCwtMTE2LC0xMTIsLTExMiwtMTA4LC0xMDUsLTM0LC01MywtNTMsLTEwNywtMTE1LC0xMTgsLTExNSwtMTExLC0xMDgsLTEyMywtMTIxLC0xMTMsLTEyMywtMTI1LC0xMjcsLTU0LC0xMDUsLTEyMSwtMTE1LC0xMjcsLTExOCwtMTI3LC0xMDYsLTU0LC0xMjEsLTExOCwtNTMsLTEyNiwtMTE1LC0xMDYsLTExOSwtMTA5LC0xMjMsLTEwNiwtMTI3LC01MywtNzMsLTg2LC02OSwtNDcsLTQ0LC00MSwtNjksLTc4LC00MywtNTQsLTQ2LC01NCwtNDQsLTUyLC01MiwtNzMsLTQ3LC00NCwtNDEsLTUxLC02OSwtNTIsLTczLC04NiwtNDcsLTQ0LC00MSwtNTUsLTgwLC00OCwtMzYsLTU1LC03NywtODMsLTk0LC04MywtOTYsLTU1LC05MCwtOTUsLTg4LC04OCwtNTUsLTc0LC04OSwtODMsLTU1LC04OCwtODEsLTUxLC02OSwtNTEsLTUyLC04OCwtODEsLTUxLC02OSwtNzgsLTQ2LC01NCwtNDcsLTU0LC00MiwtNDQsLTU0LC00MiwtNDgsLTQ0LC0zNSwtNDIsLTQ4LC01MiwtNDEsLTUxLC01NCwtMTIyLC0xMTUsLTExOCwtNTgsLTEwMyw0Mg==";
 
 const MainPage = ({ navigation }: {navigation: any}) => {
   return (
@@ -9,7 +11,7 @@ const MainPage = ({ navigation }: {navigation: any}) => {
       <TouchableHighlight
         style={[styles.touchButton]}
         onPress={() => {
-          TtlockDFU.startUpgradeByFirmwarePackage("firmwarePackage download from ttlock api",  "lockData", (status:TtUpgradeProgress, percentage: number) => {
+          TtlockDFU.startUpgradeByFirmwarePackage(FRIMWARE_PKG,  LOCK_DATA, (status:TtUpgradeProgress, percentage: number) => {
             console.log('返回数据:' +  status + "    进度：" + percentage)
           }, (newLockData: string) => {
             console.log("新锁数据：" + newLockData)
@@ -20,7 +22,7 @@ const MainPage = ({ navigation }: {navigation: any}) => {
         <Text style={styles.touchButtonText}>Lock</Text>
       </TouchableHighlight>
 
-     
+
 
       <TouchableHighlight
         style={[styles.touchButton]}

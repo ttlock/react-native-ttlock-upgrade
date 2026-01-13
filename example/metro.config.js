@@ -1,40 +1,21 @@
 const path = require('path');
-const blacklist = require('metro-config/src/defaults/blacklist');
-const escape = require('escape-string-regexp');
-const pak = require('../package.json');
+const {getDefaultConfig} = require('@react-native/metro-config');
 
-const root = path.resolve(__dirname, '..');
+const projectRoot = __dirname;
+const appNodeModules = path.resolve(projectRoot, 'node_modules');
 
-const modules = Object.keys({
-  ...pak.peerDependencies,
-});
+const config = getDefaultConfig(projectRoot);
 
-module.exports = {
-  projectRoot: __dirname,
-  watchFolders: [root],
-
-  // We need to make sure that only one version is loaded for peerDependencies
-  // So we blacklist them at the root, and alias them to the versions in example's node_modules
-  resolver: {
-    blacklistRE: blacklist(
-      modules.map(
-        (m) =>
-          new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`)
-      )
-    ),
-
-    extraNodeModules: modules.reduce((acc, name) => {
-      acc[name] = path.join(__dirname, 'node_modules', name);
-      return acc;
-    }, {}),
-  },
-
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: true,
-      },
-    }),
-  },
+// 仅覆写解析相关，保留默认的 transformer/serializer（包含资源管线）
+config.watchFolders = [path.resolve(projectRoot, '..')];
+config.resolver.nodeModulesPaths = [appNodeModules];
+config.resolver.disableHierarchicalLookup = true;
+config.resolver.extraNodeModules = {
+  'react-native': path.resolve(appNodeModules, 'react-native'),
+  react: path.resolve(appNodeModules, 'react'),
+  'react-native-ttlock-upgrade': path.resolve(projectRoot, '..'),
+  // 确保 @react-native/* 包能正确解析
+  '@react-native/virtualized-lists': path.resolve(appNodeModules, '@react-native/virtualized-lists'),
 };
+
+module.exports = config;

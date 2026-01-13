@@ -26,6 +26,7 @@ def getExtOrIntegerDefault(name) {
 }
 
 android {
+  namespace "com.reactnativettlockupgrade"
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
@@ -141,5 +142,5 @@ dependencies {
 //  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   implementation(name: 'TTLockOnPremise', ext: 'aar')
 //  implementation 'com.ttlock:ttlock:3.3.9'
-  implementation 'no.nordicsemi.android:dfu:1.11.1'
+  implementation 'no.nordicsemi.android:dfu:2.5.0'
 }
