@@ -1,11 +1,15 @@
-import {
-  NativeModules,
-  NativeEventEmitter,
-} from 'react-native';
+import NativeTTLockUpgrade from './NativeTtlockUpgrade';
+
+import { NativeEventEmitter, NativeModules } from 'react-native';
+
+const eventEmitter = new NativeEventEmitter(NativeModules.TtlockUpgrade);
+
+
+
+
 
 const EventUpgradeProgress: string = 'EventUpgradeProgress'
-const ttlockModule = NativeModules.TtlockUpgrade;
-const ttlockEventEmitter = new NativeEventEmitter(ttlockModule);
+
 
 const subscriptionMap = new Map();
 
@@ -20,9 +24,9 @@ function removeUpgreadeProgressEvent(){
 
 function progressCallback(progress: (status: TtUpgradeProgress, percentage: number) => void){
   let subscription = removeUpgreadeProgressEvent()
-  subscription = ttlockEventEmitter.addListener(EventUpgradeProgress, (data: any[]) => {
+  subscription = eventEmitter.addListener(EventUpgradeProgress, (...args: any[]) => {
     if(progress){
-      progress(data[0] as TtUpgradeProgress, data[1]);
+      progress(args[0] as TtUpgradeProgress, args[1]);
     }
   });
   subscriptionMap.set(EventUpgradeProgress, subscription);
@@ -33,28 +37,29 @@ class TtlockDFU {
 
   static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockData: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startLockDfuByClient(clientId, accessToken, lockId, lockData, success, fail);
+    NativeTTLockUpgrade.startLockDfuByClient(clientId, accessToken, lockId, lockData, success, fail);
   }
 
   static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockData: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startLockDfuByFirmwarePackage(firmwarePackage, lockData, success, fail);
+    NativeTTLockUpgrade.startLockDfuByFirmwarePackage(firmwarePackage, lockData, success, fail);
   }
 
   static stopUpgrade(){
-    ttlockModule.stopLockUpgrade();
+    NativeTTLockUpgrade.stopLockUpgrade();
   }
 
 }
 
 class TtGatewayDFU {
+ 
   static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: () => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    ttlockModule.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, success, fail);
+    NativeTTLockUpgrade.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, success, fail);
   }
 
   static stopUpgrade(){
-    ttlockModule.endGatewayUpgrade();
+    NativeTTLockUpgrade.stopGatewayUpgrade();
   }
 }
 

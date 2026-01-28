@@ -1,76 +1,37 @@
 # react-native-ttlock-upgrade
 
-
-
-##### Developers Email && Quick Response
-
-ttlock-developers-email-list@googlegroups.com
+ttlock upgrade
 
 ## Installation
 
+
 ```sh
-yarn add react-native-ttlock-upgrade
+npm install react-native-ttlock-upgrade
 ```
 
-##  Upgrade
 
+## Usage
 
-
-#### Lock
 
 ```js
-import {TtlockDFU, TtUpgradeError, TtUpgradeProgress} from 'react-native-ttlock-upgrade'
+import { multiply } from 'react-native-ttlock-upgrade';
 
-//Start upgrade method 1
-TtlockDFU.startUpgradeByClient("clientId", "accessToken", 1, "lockData", (progress: TtUpgradeProgress, percentage: number) => {
-        console.log("status：" + progress + "    percentage：" + percentage)
-    }, (newLockData: string) => {
-        console.log("upgrade success: " + newLockData)
-    }, (error: TtUpgradeError) => {
-        console.log("fail: " + error)
-})  
+// ...
 
-//Start upgrade method 2
-TtlockDFU.startUpgradeByFirmwarePackage("packageUrl", "lockData", (progress: TtUpgradeProgress, percentage: number) => {
-       console.log("status：" + progress + "    percentage：" + percentage)
-    }, (newLockData: string) => {
-        console.log("upgrade success: " + newLockData)
-    }, (error: TtUpgradeError) => {
-        console.log("fail: " + error)
-})
-
-//Stop Upgrade
-TtlockDFU.stopUpgrade()
-
-
+const result = multiply(3, 7);
 ```
 
 
+## Contributing
 
+- [Development workflow](CONTRIBUTING.md#development-workflow)
+- [Sending a pull request](CONTRIBUTING.md#sending-a-pull-request)
+- [Code of conduct](CODE_OF_CONDUCT.md)
 
+## License
 
-#### Gateway
+MIT
 
-```js
-import {TtGatewayDFU, TtlockDFU, TtUpgradeError, TtUpgradeProgress, TtUpgradeType} from 'react-native-ttlock-upgrade'
+---
 
-//Upgrade the gateway 
- TtGatewayDFU.startUpgrade(TtUpgradeType.Net, "clientId", 'token',1, "gatewayMac", (status:TtUpgradeProgress, percentage:   number) => {
-        console.log("status：" + progress + "    percentage：" + percentage)
-    }, () => {
-        console.log("upgrade success")
-    }, (error: TtUpgradeError) => {
-        console.log("fail: " + error)
-    }
-)
-
-
-//Stop Upgrade
-TtGatewayDFU.stopUpgrade()
-
-```
-
- 
-
-
-
+Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

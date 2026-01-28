@@ -1,21 +1,18 @@
 const path = require('path');
-const {getDefaultConfig} = require('@react-native/metro-config');
+const { getDefaultConfig } = require('@react-native/metro-config');
+const { withMetroConfig } = require('react-native-monorepo-config');
 
-const projectRoot = __dirname;
-const appNodeModules = path.resolve(projectRoot, 'node_modules');
+const root = path.resolve(__dirname, '..');
 
-const config = getDefaultConfig(projectRoot);
-
-// 仅覆写解析相关，保留默认的 transformer/serializer（包含资源管线）
-config.watchFolders = [path.resolve(projectRoot, '..')];
-config.resolver.nodeModulesPaths = [appNodeModules];
-config.resolver.disableHierarchicalLookup = true;
-config.resolver.extraNodeModules = {
-  'react-native': path.resolve(appNodeModules, 'react-native'),
-  react: path.resolve(appNodeModules, 'react'),
-  'react-native-ttlock-upgrade': path.resolve(projectRoot, '..'),
-  // 确保 @react-native/* 包能正确解析
-  '@react-native/virtualized-lists': path.resolve(appNodeModules, '@react-native/virtualized-lists'),
-};
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = withMetroConfig(getDefaultConfig(__dirname), {
+  root,
+  dirname: __dirname,
+});
 
 module.exports = config;
