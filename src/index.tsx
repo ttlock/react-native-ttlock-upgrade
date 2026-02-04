@@ -24,7 +24,7 @@ function removeUpgreadeProgressEvent(){
 
 function progressCallback(progress: (status: TtUpgradeProgress, percentage: number) => void){
   let subscription = removeUpgreadeProgressEvent()
-  subscription = eventEmitter.addListener(EventUpgradeProgress, (...args: any[]) => {
+  subscription = eventEmitter.addListener(EventUpgradeProgress, (args: any) => {
     if(progress){
       progress(args[0] as TtUpgradeProgress, args[1]);
     }
@@ -52,7 +52,7 @@ class TtlockDFU {
 }
 
 class TtGatewayDFU {
- 
+
   static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: () => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
     NativeTTLockUpgrade.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, success, fail);
