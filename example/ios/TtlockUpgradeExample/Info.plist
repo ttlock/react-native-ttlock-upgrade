@@ -33,6 +33,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Control the lock by bluetooth</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>RCTNewArchEnabled</key>
@@ -51,5 +53,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCellularDataUsageDescription</key>
+	<string>本应用需要使用移动网络获取最新数据，保障功能正常运行</string>
+	<key>NSWiFiUsageDescription</key>
+	<string>本应用需要使用 WiFi 访问网络服务，实现高速数据传输</string>
 </dict>
 </plist>
