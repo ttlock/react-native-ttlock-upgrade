@@ -85,9 +85,9 @@ enum TtUpgradeError {
     UnknownUpgradeVersion = 5,
     EnterUpgradeState = 6,
     UpgradeLockFail = 7,
-    UpgradeOprationPreparingError = 8,
-    UpgradeOprationGetSpecialValueError = 9,
+    UpgradeOperationPreparingError = 8,
+    UpgradeOperationGetSpecialValueError = 9,
     UpgradeFail = 10,
-    UpgradeOprationSetLockTimeError = 11
+    UpgradeOperationSetLockTimeError = 11
 }
 export { TtlockDFU, TtGatewayDFU, TtUpgradeProgress, TtUpgradeError, TtUpgradeType }
