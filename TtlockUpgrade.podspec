@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
 
   #TTLockDFU 依赖
-  s.dependency 'TTLockDFU', '3.3.4'
+  s.dependency 'TTLockDFU', '3.5.6'
   s.static_framework = true
 
   install_modules_dependencies(s)

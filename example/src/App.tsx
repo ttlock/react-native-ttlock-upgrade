@@ -26,7 +26,7 @@ export default function App() {
         TtlockDFU.stopUpgrade();
       }} />
       <Button title="Gateway Start Upgrade" onPress={() => {
-        TtGatewayDFU.startUpgrade(TtUpgradeType.Bluetooth, clientId, gatewayToken, gatewayId, gatewayMac, (status, percentage) => {
+        TtGatewayDFU.startUpgrade(TtUpgradeType.Net, clientId, gatewayToken, gatewayId, gatewayMac, (status, percentage) => {
           console.log(`Progress: ${status}, ${percentage}%`);
         }, () => {
           console.log("Upgrade successful");
