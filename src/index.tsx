@@ -35,11 +35,6 @@ function progressCallback(progress: (status: TtUpgradeProgress, percentage: numb
 
 class TtlockDFU {
 
-  static startUpgradeByClient(clientId: string, accessToken: string, lockId: number, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockData: string) => void, fail: (error:TtUpgradeError) => void) {
-    progressCallback(progress)
-    NativeTTLockUpgrade.startLockDfuByClient(clientId, accessToken, lockId, lockData, success, fail);
-  }
-
   static startUpgradeByFirmwarePackage(firmwarePackage: string, lockData: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: (newLockData: string) => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
     NativeTTLockUpgrade.startLockDfuByFirmwarePackage(firmwarePackage, lockData, success, fail);
@@ -53,9 +48,9 @@ class TtlockDFU {
 
 class TtGatewayDFU {
 
-  static startUpgrade(type: TtUpgradeType, clientId: string, accessToken: string, gatewayId: number, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: () => void, fail: (error:TtUpgradeError) => void) {
+  static startUpgradeByFirmwarePackage(firmwarePackage: string, gatewayMac: string, progress: (status: TtUpgradeProgress, percentage: number) => void, success: () => void, fail: (error:TtUpgradeError) => void) {
     progressCallback(progress)
-    NativeTTLockUpgrade.startGatewayDfuByType(type, clientId,accessToken,gatewayId, gatewayMac, success, fail);
+    NativeTTLockUpgrade.startGatewayDfuByFirmwarePackage(firmwarePackage, gatewayMac, success, fail);
   }
 
   static stopUpgrade(){
@@ -70,13 +65,6 @@ enum TtUpgradeProgress {
   Upgrading = 2,
   Recovering = 3
 }
-
-enum TtUpgradeType {
-  Net = 0,
-  Bluetooth = 1
-}
-
-
 enum TtUpgradeError {
   PeripheralPoweredOff  = 1,
     ConnectTimeout = 2,
@@ -90,4 +78,4 @@ enum TtUpgradeError {
     UpgradeFail = 10,
     UpgradeOprationSetLockTimeError = 11
 }
-export { TtlockDFU, TtGatewayDFU, TtUpgradeProgress, TtUpgradeError, TtUpgradeType }
+export { TtlockDFU, TtGatewayDFU, TtUpgradeProgress, TtUpgradeError }
