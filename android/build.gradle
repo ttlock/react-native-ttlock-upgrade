@@ -62,9 +62,15 @@ android {
   }
 }
 
+repositories {
+  flatDir {
+    dirs 'libs'
+  }
+}
+
 dependencies {
   implementation "com.facebook.react:react-android"
   // TTLock SDK dependencies
-  implementation 'com.ttlock:ttlock:3.5.5'
+  implementation files('libs/TTLockOnPremise.aar')
   implementation 'no.nordicsemi.android:dfu:2.5.0'
 }

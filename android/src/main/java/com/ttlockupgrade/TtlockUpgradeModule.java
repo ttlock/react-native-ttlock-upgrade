@@ -46,7 +46,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   }
 
   private void getLockSysInfo(String lockData, Callback successCallback, Callback fail) {
-    TTLockClient.getDefault().getLockSystemInfo(lockData, null, new GetLockSystemInfoCallback() {
+    TTLockClient.getDefault().getLockSystemInfo(lockData, new GetLockSystemInfoCallback() {
       @Override
       public void onGetLockSystemInfoSuccess(DeviceInfo deviceInfo) {
         successCallback.invoke(deviceInfo.lockData);
