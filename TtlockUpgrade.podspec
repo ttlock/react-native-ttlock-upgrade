@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
   s.private_header_files = "ios/**/*.h"
 
 
-  #TTLockDFU 依赖
-  s.dependency 'TTLockDFU', '3.3.4'
+  #TTLockDFUOnPremise 依赖
+  s.dependency 'TTLockDFUOnPremise'
   s.static_framework = true
 
   install_modules_dependencies(s)
