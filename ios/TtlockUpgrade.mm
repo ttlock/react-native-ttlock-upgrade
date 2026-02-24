@@ -65,24 +65,19 @@ RCT_EXPORT_METHOD(startLockDfuByClient:(NSString *)clientId accessToken:(NSStrin
 RCT_EXPORT_METHOD(startLockDfuByFirmwarePackage:(NSString *)firmwarePackage lockData:(NSString *) lockData  success:(RCTResponseSenderBlock)success fail:(RCTResponseSenderBlock)fail)
 {
     __weak TtlockUpgrade *weakSelf = self;
-    [TTLock enterUpgradeModeWithLockData:lockData success:^{
-           [[TTLockDFU shareInstance] startDfuWithFirmwarePackage:firmwarePackage lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
-               if (type == UpgradeOprationSuccess) {
-                   [TTLock getLockFeatureValueWithLockData:lockData success:^(NSString *newLockData) {
-                       success(@[newLockData]);
-                   } failure:^(TTError errorCode, NSString *errorMsg) {
-                       success(@[lockData]);
-                   }];
-               }else{
-                   [weakSelf sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
-               }
-           } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
-               fail(@[@(code)]);
-           }];
-       } failure:^(TTError errorCode, NSString *errorMsg) {
-           NSNumber *code = errorCode == TTErrorConnectionTimeout ? @2 : @6;
-           fail(@[code,NOT_NULL_STRING(errorMsg)]);
-       }];
+  [[TTLockDFU shareInstance] startDfuWithFirmwarePackage:firmwarePackage lockData:lockData successBlock:^(UpgradeOpration type, NSInteger process) {
+      if (type == UpgradeOprationSuccess) {
+          [TTLock getLockFeatureValueWithLockData:lockData success:^(NSString *newLockData) {
+              success(@[newLockData]);
+          } failure:^(TTError errorCode, NSString *errorMsg) {
+              success(@[lockData]);
+          }];
+      }else{
+          [weakSelf sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
+      }
+  } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
+      fail(@[@(code)]);
+  }];
 }
 
 
