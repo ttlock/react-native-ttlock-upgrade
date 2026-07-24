@@ -69,28 +69,17 @@ RCT_EXPORT_METHOD(stopLockUpgrade)
     [[TTLockDFUOnPremise shareInstance] endUpgrade];
 }
 
-RCT_EXPORT_METHOD(startGatewayDfuByFirmwarePackage:(NSString *)firmwarePackage gatewayMac:(NSString *) gatewayMac success:(RCTResponseSenderBlock)success  fail:(RCTResponseSenderBlock)fail)
+RCT_EXPORT_METHOD(startGatewayDfuByFirmwarePackage:(NSString *)firmwarePackage gatewayMac:(NSString *)gatewayMac success:(RCTResponseSenderBlock)success fail:(RCTResponseSenderBlock)fail)
 {
-    [TTGateway connectGatewayWithGatewayMac:gatewayMac block:^(TTGatewayConnectStatus connectStatus) {
-        if (connectStatus == TTGatewayConnectSuccess) {
-            [TTGateway upgradeGatewayWithGatewayMac:gatewayMac block:^(TTGatewayStatus status) {
-                if (status == TTGatewaySuccess) {
-                    [[TTGatewayDFU shareInstance] startDfuWithFirmwarePackage:firmwarePackage gatewayMac:gatewayMac successBlock:^(UpgradeOpration type, NSInteger process) {
-                        if (type == UpgradeOprationSuccess) {
-                            success(@[]);
-                        }else{
-                            [self sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
-                        }
-                    } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
-                            fail(@[@(code)]);
-                    }];
-                }else{
-                    fail(@[@(6)]);
-                }
-            }];
-        }else{
-            fail(@[@(2)]);
+    __weak TtlockUpgrade *weakSelf = self;
+    [[TTGatewayDFU shareInstance] startDfuWithFirmwarePackage:firmwarePackage gatewayMac:gatewayMac successBlock:^(UpgradeOpration type, NSInteger process) {
+        if (type == UpgradeOprationSuccess) {
+            success(@[]);
+        } else {
+            [weakSelf sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type), @(process)]];
         }
+    } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
+        fail(@[@(code)]);
     }];
 }
 
