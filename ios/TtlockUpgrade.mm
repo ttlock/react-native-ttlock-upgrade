@@ -87,32 +87,20 @@ RCT_EXPORT_METHOD(stopLockUpgrade)
 }
 
 
-RCT_EXPORT_METHOD(startGatewayDfuByType:(nonnull NSNumber *)type clientId:(NSString *)clientId accessToken:(NSString *)accessToken gatewayId: (nonnull NSNumber *)gatewayId gatewayMac:(NSString *) gatewayMac  success:(RCTResponseSenderBlock)success fail:(RCTResponseSenderBlock)fail)
+RCT_EXPORT_METHOD(startGatewayDfuByType:(nonnull NSNumber *)type clientId:(NSString *)clientId accessToken:(NSString *)accessToken gatewayId:(nonnull NSNumber *)gatewayId gatewayMac:(NSString *)gatewayMac success:(RCTResponseSenderBlock)success fail:(RCTResponseSenderBlock)fail)
 {
     TTGatewayDFUType dfuType = type.intValue == 0 ? TTGatewayDFUTypeByNet : TTGatewayDFUTypeByBluetooth;
 
     __weak TtlockUpgrade *weakSelf = self;
-    [TTGateway connectGatewayWithGatewayMac:gatewayMac block:^(TTGatewayConnectStatus connectStatus) {
-           if (connectStatus == TTGatewayConnectSuccess) {
-               [TTGateway upgradeGatewayWithGatewayMac:gatewayMac block:^(TTGatewayStatus status) {
-                   if (status == TTGatewaySuccess) {
-                       [[TTGatewayDFU shareInstance] startDfuWithType:dfuType clientId:clientId accessToken:accessToken gatewayId:gatewayId gatewayMac:gatewayMac successBlock:^(UpgradeOpration type, NSInteger process) {
-                           if (type == UpgradeOprationSuccess) {
-                               success(@[]);
-                           }else{
-                               [weakSelf sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type),@(process)]];
-                           }
-                       } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
-                               fail(@[@(code)]);
-                       }];
-                   }else{
-                       fail(@[@(6)]);
-                   }
-               }];
-           }else{
-               fail(@[@(2)]);
-           }
-       }];
+    [[TTGatewayDFU shareInstance] startDfuWithType:dfuType clientId:clientId accessToken:accessToken gatewayId:gatewayId gatewayMac:gatewayMac successBlock:^(UpgradeOpration type, NSInteger process) {
+        if (type == UpgradeOprationSuccess) {
+            success(@[]);
+        } else {
+            [weakSelf sendEventWithName:EVENT_UPGRADE_PROGRESS body:@[@(type), @(process)]];
+        }
+    } failBlock:^(UpgradeOpration type, UpgradeErrorCode code) {
+        fail(@[@(code)]);
+    }];
 }
 
 
