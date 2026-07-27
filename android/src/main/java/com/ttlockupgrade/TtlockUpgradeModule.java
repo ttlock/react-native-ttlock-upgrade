@@ -4,7 +4,6 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.module.annotations.ReactModule;
@@ -22,18 +21,12 @@ import com.ttlock.bl.sdk.util.EncryptionUtil;
 import com.ttlock.bl.sdk.api.LockDfuClient;
 import com.ttlock.bl.sdk.callback.DfuCallback;
 import com.ttlock.bl.sdk.entity.LockData;
-import com.ttlock.bl.sdk.gateway.api.GatewayClient;
 import com.ttlock.bl.sdk.gateway.api.GatewayDfuClient;
-import com.ttlock.bl.sdk.util.GsonUtil;
 import com.ttlock.bl.sdk.util.LogUtil;
 
 @ReactModule(name = "TtlockUpgrade")
 public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   private final ReactApplicationContext reactContext;
-  private String cacheGatewayMac;
-
-  private Callback cacheSuccessCallback;
-  private Callback cacheFailCallback;
 
   public TtlockUpgradeModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -54,7 +47,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
 
       @Override
       public void onFail(LockError lockError) {
-        fail.invoke(3);
+        fail.invoke(TTUpgradeError.NetFail);
       }
     });
   }
@@ -64,6 +57,10 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
     PermissionUtils.doWithScanPermission(getCurrentActivity(), success -> {
       if (success) {
         LockData lockParam = EncryptionUtil.parseLockData(lockData);
+        if (lockParam == null) {
+          fail.invoke(TTUpgradeError.UpgradeFail);
+          return;
+        }
         LockDfuClient.getDefault().startDfu(reactContext, lockData, lockParam.lockMac, firmwarePackage, new DfuCallback() {
           @Override
           public void onDfuSuccess(String deviceAddress) {
@@ -107,6 +104,7 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
         });
       } else {
         LogUtil.d("no scan permission");
+        fail.invoke(TTUpgradeError.UpgradeFail);
       }
     });
   }
@@ -170,12 +168,13 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
         });
       } else {
         LogUtil.d("no scan permission");
+        fail.invoke(TTUpgradeError.UpgradeFail);
       }
     });
   }
 
   @ReactMethod
-  public void endGatewayUpgrade() {
+  public void stopGatewayUpgrade() {
       GatewayDfuClient.getDefault().abortDfu();
   }
 
