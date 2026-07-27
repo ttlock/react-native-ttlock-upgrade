@@ -22,7 +22,6 @@ import com.ttlock.bl.sdk.util.EncryptionUtil;
 import com.ttlock.bl.sdk.api.LockDfuClient;
 import com.ttlock.bl.sdk.callback.DfuCallback;
 import com.ttlock.bl.sdk.entity.LockData;
-import com.ttlock.bl.sdk.gateway.api.GatewayClient;
 import com.ttlock.bl.sdk.gateway.api.GatewayDfuClient;
 import com.ttlock.bl.sdk.util.GsonUtil;
 import com.ttlock.bl.sdk.util.LogUtil;
@@ -228,6 +227,8 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onDfuAborted(String deviceAddress) {
+              // 中断/失败后必须清缓存，否则下次同 MAC 会误走 retry 且可能不再回调
+              cacheGatewayMac = "";
               cacheFailCallback.invoke(TTUpgradeError.UpgradeFail);
             }
 
@@ -238,10 +239,12 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onError() {
+              // 失败后清缓存，保证下次 startUpgrade 重新走 startDfu，而不是卡在无回调的 retry
+              cacheGatewayMac = "";
               cacheFailCallback.invoke(TTUpgradeError.UpgradeFail);
             }
           });
-        } else {//相当于重试
+        } else {//相当于重试（仅上一轮 startDfu 仍在进行、同一 MAC 再次调用时）
           switch (type) {
             case 0://net
               GatewayDfuClient.getDefault().retryEnterDfuModeByNet();
@@ -258,7 +261,8 @@ public class TtlockUpgradeModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void endGatewayUpgrade() {
+  public void stopGatewayUpgrade() {
+      cacheGatewayMac = "";
       GatewayDfuClient.getDefault().abortDfu();
   }
 
